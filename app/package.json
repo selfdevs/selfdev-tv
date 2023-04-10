@@ -1,0 +1,29 @@
+{
+  "name": "broadcast-preview",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "luxon": "^3.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router": "^6.10.0",
+    "react-router-dom": "^6.10.0",
+    "shaka-player": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.3.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "prettier": "^2.8.4",
+    "typescript": "^5.0.2",
+    "vite": "^4.2.0"
+  }
+}

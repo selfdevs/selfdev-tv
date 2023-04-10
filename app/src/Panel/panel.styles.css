@@ -1,0 +1,7 @@
+.panel {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    padding: 16px;
+    background-color: #121212;
+}

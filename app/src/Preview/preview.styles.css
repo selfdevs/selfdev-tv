@@ -1,0 +1,23 @@
+.preview {
+    outline: solid 2px white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    background-color: black;
+}
+
+.preview img {
+    width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.preview-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: black;
+    background-color: white;
+    padding: 2px;
+}

@@ -1,0 +1,16 @@
+.player-container {
+    border: solid 1px white;
+    display: flex;
+}
+
+.player-container video {
+    width: 100%;
+    height: 100%;
+}
+
+.player-label {
+    color: black;
+    background-color: white;
+    position: absolute;
+    padding: 2px;
+}

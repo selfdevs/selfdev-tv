@@ -1,0 +1,56 @@
+.button-container {
+    background-color: black;
+    border-radius: 8px;
+    margin: 4px;
+    display: inline-block;
+}
+
+button {
+    content: attr(value);
+    margin: 4px;
+    width: 120px;
+    height: 32px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    opacity: 1;
+    justify-content: center;
+    align-items: center;
+    color: #121212;
+    border-style: outset;
+    border-width: 3px;
+    background-color: #5f5f5f;
+    border-color: gray;
+    text-transform: uppercase;
+    --color: lightblue;
+}
+
+button span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+}
+
+button:focus {
+    outline: none;
+}
+
+button[data-variant="GOLD"] {
+    --color: gold;
+}
+
+button[data-variant="RED"] {
+    --color: orangered;
+}
+
+button[data-active="true"] {
+    background-color: var(--color);
+    border-color: var(--color);
+    box-shadow: 0 0 10px var(--color);
+}
+
+button[data-pressed="true"] {
+    border-style: inset;
+}

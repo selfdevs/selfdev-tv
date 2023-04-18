@@ -42,7 +42,7 @@ class ObsClient {
     requestType: string,
     requestData: any
   ): Promise<any> {
-    const requestId = crypto.randomUUID();
+    const requestId = Math.random().toString(16).substr(2, 8);
     this.client.send(
       JSON.stringify({
         op: 6,

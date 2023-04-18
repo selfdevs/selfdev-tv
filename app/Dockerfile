@@ -8,12 +8,13 @@ RUN npm install -g pnpm
 ENV TZ=Europe/Paris
 
 COPY package*.json ./
+
 COPY pnpm-lock.yaml ./
 
 RUN pnpm install
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 5173
 
-CMD [ "pnpm", "nodemon", "src/index.ts" ]
+CMD [ "pnpm", "dev" ]

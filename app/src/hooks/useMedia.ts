@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
+import { API_URL } from '../index';
 
 const useMedia = () => {
   const [media, setMedia] = useState([]);
 
   useEffect(() => {
     const fetchMedia = async () => {
-      const response = await fetch(`http://localhost:3000/media`);
+      const response = await fetch(`${API_URL}/media`);
       const data = await response.json();
       setMedia(data);
     };

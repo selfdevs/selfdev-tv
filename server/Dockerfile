@@ -5,6 +5,8 @@ WORKDIR /app
 
 RUN npm install -g pnpm
 
+ENV TZ=Europe/Paris 
+
 COPY package*.json ./
 COPY pnpm-lock.yaml ./
 

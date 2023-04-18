@@ -2,6 +2,7 @@ import React from 'react';
 import useMedia from '../hooks/useMedia';
 import Upload from '../Upload/Upload';
 import Button from '../components/Button/Button';
+import { API_URL } from '../index';
 
 const Schedule = () => {
   const media = useMedia();
@@ -12,7 +13,7 @@ const Schedule = () => {
     const startTime = formData.get('startTime');
     const mediaId = formData.get('mediaId');
     console.log({ startTime, mediaId });
-    fetch('http://localhost:3000/queue', {
+    fetch(`${API_URL}/queue`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

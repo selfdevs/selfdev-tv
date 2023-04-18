@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../components/Button/Button';
 import TextInput from '../components/TextInput/TextInput';
+import { API_URL } from '../index';
 
 const Upload = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -10,7 +11,7 @@ const Upload = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     setLoading(true);
-    fetch('http://localhost:3000/upload', {
+    fetch(`${API_URL}/upload`, {
       method: 'POST',
       body: formData,
     }).then(() => setLoading(false));

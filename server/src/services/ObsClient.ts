@@ -7,7 +7,7 @@ class ObsClient {
   async connect(): Promise<void> {
     console.log("ObsClient connecting...");
     return new Promise<void>((resolve, reject) => {
-      this.client = new WebSocket("ws://192.168.1.74:4455");
+      this.client = new WebSocket("ws://bc.talpa-world.com:4455");
 
       this.client.onopen = () => {
         console.log("ObsClient connected");

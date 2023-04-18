@@ -10,9 +10,11 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     ports:
-      - 5432:5432
+      - "5432:5432"
   web:
     build: .
     container_name: web
     volumes:
       - ./src/assets:/app/src/assets:rw
+    ports:
+      - "3000:3000"

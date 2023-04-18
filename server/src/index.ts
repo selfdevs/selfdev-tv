@@ -64,7 +64,7 @@ app.post("/upload", upload.single("video"), async (req, res) => {
   console.log(req.file.filename);
   const mediaRepository = AppDataSource.getRepository(Media);
   const duration = await getVideoDurationInSeconds(
-    `server/assets/${req.file.filename}`
+    `./assets/${req.file.filename}`
   );
   const newMediaEntry = mediaRepository.create({
     filename: req.file.filename,

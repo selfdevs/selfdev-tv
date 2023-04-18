@@ -15,4 +15,4 @@ services:
     build: .
     container_name: web
     volumes:
-      - ./src/assets:/app/src/assets
+      - ./src/assets:/app/src/assets:rw

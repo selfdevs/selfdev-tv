@@ -1,7 +1,7 @@
 FROM node:latest
 
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
 COPY pnpm-lock.yaml ./

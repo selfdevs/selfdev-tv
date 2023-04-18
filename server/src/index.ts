@@ -1,12 +1,7 @@
 import express from "express";
-import { spawn } from "child_process";
-import { streamLocalFileCommand } from "./services/ffmpeg";
 import cors from "cors";
-import { readdir } from "fs/promises";
 import ObsClient from "./services/ObsClient";
-import { dirname } from "path";
 import multer from "multer";
-import { unlink, unlinkSync } from "fs";
 import { DateTime } from "luxon";
 import AppDataSource from "./data-source";
 import { Media } from "./entities/Media";

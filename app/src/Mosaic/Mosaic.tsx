@@ -63,12 +63,12 @@ const Mosaic = () => {
           gridRow: 2,
         }}
       />
-      <Timeline
-        style={{
-          gridColumn: '1 / 5',
-          gridRow: 3,
-        }}
-      />
+      {/*<Timeline*/}
+      {/*  style={{*/}
+      {/*    gridColumn: '1 / 5',*/}
+      {/*    gridRow: 3,*/}
+      {/*  }}*/}
+      {/*/>*/}
       <Panel
         style={{
           gridColumn: '1 / 5',

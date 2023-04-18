@@ -135,10 +135,7 @@ function Minute({ hour, minute, setSelectedMinute, cursor }: MinuteProps) {
       hour,
       minute: minute + 1,
     });
-    if (
-      (startTime >= currentMinuteStart && startTime < currentMinuteEnd) ||
-      (endTime >= currentMinuteStart && endTime < currentMinuteEnd)
-    ) {
+    if (startTime < currentMinuteEnd || endTime >= currentMinuteStart) {
       return true;
     }
     return acc;

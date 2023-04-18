@@ -43,7 +43,7 @@ async function runMedia(filename: string) {
   console.log("run media");
   return new Promise((resolve) => {
     ObsClient.setInputSettings("scheduled_media", {
-      local_file: process.env.PWD + "/assets/" + filename,
+      local_file: "/home/cchampou/code/broadcast/server/assets/" + filename,
     });
     ObsClient.switchToScene("schedule");
     ObsClient.client.addEventListener("message", (message) => {

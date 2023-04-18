@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile
     container_name: web
     volumes:
-      - ./src/assets:/app/src/assets:rw
+      - ./server/src/assets:/app/src/assets:rw
     ports:
       - "3000:3000"
   front:

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { API_URL } from '../index';
 
 const useSchedule = () => {
   const [schedule, setSchedule] = useState([]);
@@ -6,7 +7,7 @@ const useSchedule = () => {
 
   useEffect(() => {
     const fetchSchedule = async () => {
-      const response = await fetch(`http://localhost:3000/schedule`);
+      const response = await fetch(`${API_URL}/schedule`);
       const data = await response.json();
       setSchedule(data);
     };

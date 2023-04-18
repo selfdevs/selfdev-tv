@@ -1,12 +1,9 @@
 import React from 'react';
-import Player from '../Player/Player';
 import './mosaic.styles.css';
 import ObsClient from '../services/ObsClient';
 import Panel from '../Panel/Panel';
 import Preview from '../Preview/Preview';
-import Schedule from '../Schedule/Schedule';
-import { Route, Routes } from 'react-router';
-import Timeline from '../components/Timeline/Timeline';
+import SimpleTimeline from '../SimpleTimeline/SimpleTimeline';
 
 window.addEventListener('keypress', (e) => {
   switch (e.key) {
@@ -68,7 +65,12 @@ const Mosaic = () => {
       {/*    gridColumn: '1 / 5',*/}
       {/*    gridRow: 3,*/}
       {/*  }}*/}
-      {/*/>*/}
+      <SimpleTimeline
+        style={{
+          gridColumn: '1 / 5',
+          gridRow: 3,
+        }}
+      />
       <Panel
         style={{
           gridColumn: '1 / 5',

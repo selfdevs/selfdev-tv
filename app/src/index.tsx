@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Mosaic from './Mosaic/Mosaic';
 import './index.css';
 
-export const API_URL = 'http://192.168.1.74:3000';
+export const API_URL = 'http://bc.talpa-world.com:3000';
 
 const root = document.getElementById('root');
 

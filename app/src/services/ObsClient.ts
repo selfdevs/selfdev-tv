@@ -4,7 +4,7 @@ class ObsClient {
 
   constructor() {
     console.log('ObsClient constructor');
-    this.client = new WebSocket('ws://192.168.1.74:4455');
+    this.client = new WebSocket('ws://bc.talpa-world.com:4455');
 
     this.client.onopen = () => {
       console.log('ObsClient connected');

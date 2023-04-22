@@ -5,29 +5,10 @@ import Button, { ButtonVariant } from '../Button/Button';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import Schedule from '../Schedule/Schedule';
 import { getObsClient } from '../../utils/obs';
+import LiveButton from '../LiveButton/LiveButton';
 
 type Props = {
   style?: React.CSSProperties;
-};
-
-type RadioProps = {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  currentValue: string;
-};
-
-const Radio = ({ value, onChange, currentValue }: RadioProps) => {
-  const checked = useMemo(() => value === currentValue, [value, currentValue]);
-
-  return (
-    <input
-      type="radio"
-      onChange={onChange}
-      name="slot"
-      value={value}
-      defaultChecked={checked}
-    />
-  );
 };
 
 const Panel = ({ style }: Props) => {
@@ -110,16 +91,12 @@ const Panel = ({ style }: Props) => {
       >
         Scheduler
       </Button>
-      <Button
-        variant={ButtonVariant.RED}
-        pending
-        containerStyle={{
+      <LiveButton
+        style={{
           gridColumn: 19,
           gridRow: 5,
         }}
-      >
-        LIVE
-      </Button>
+      />
     </div>
   );
 };

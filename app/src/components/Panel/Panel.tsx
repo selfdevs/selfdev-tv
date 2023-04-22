@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
 import './panel.styles.css';
-import obsClient from '../services/ObsClient';
-import useCurrentScene from '../hooks/useCurrentScene';
-import Button, { ButtonVariant } from '../components/Button/Button';
+import useCurrentScene from '../../hooks/useCurrentScene';
+import Button, { ButtonVariant } from '../Button/Button';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import Schedule from '../Schedule/Schedule';
+import { getObsClient } from '../../utils/obs';
 
 type Props = {
   style?: React.CSSProperties;
@@ -36,9 +36,10 @@ const Panel = ({ style }: Props) => {
   const [pendingScene, setPendingScene] = React.useState<string>('');
   const currentScene = useCurrentScene();
 
-  const handleChange = (newSceneName: string) => {
+  const handleChange = async (newSceneName: string) => {
     setPendingScene(newSceneName);
-    obsClient.switchToScene(newSceneName);
+    const client = await getObsClient();
+    await client.call('SetCurrentProgramScene', { sceneName: newSceneName });
   };
 
   useEffect(() => {

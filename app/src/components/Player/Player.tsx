@@ -4,7 +4,7 @@ import React, { CSSProperties, useEffect } from 'react';
 // @ts-ignore
 import shaka from 'shaka-player/dist/shaka-player.compiled';
 // @ts-ignore
-import mire from '../assets/mire.jpeg';
+import mire from '../../assets/mire.jpeg';
 import './player.styles.css';
 
 type Props = {

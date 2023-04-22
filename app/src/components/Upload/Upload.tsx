@@ -1,7 +1,7 @@
 import React from 'react';
-import Button from '../components/Button/Button';
-import TextInput from '../components/TextInput/TextInput';
-import { API_URL } from '../index';
+import Button from '../Button/Button';
+import TextInput from '../TextInput/TextInput';
+import { getEnvOrThrow } from '../../utils/env';
 
 const Upload = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -11,7 +11,7 @@ const Upload = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     setLoading(true);
-    fetch(`${API_URL}/upload`, {
+    fetch(`${getEnvOrThrow('VITE_API_URL')}/upload`, {
       method: 'POST',
       body: formData,
     }).then(() => setLoading(false));

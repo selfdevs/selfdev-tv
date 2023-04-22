@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { API_URL } from '../index';
+import { getEnvOrThrow } from '../utils/env';
 
 const useSchedule = () => {
   const [schedule, setSchedule] = useState([]);
@@ -7,7 +7,7 @@ const useSchedule = () => {
 
   useEffect(() => {
     const fetchSchedule = async () => {
-      const response = await fetch(`${API_URL}/schedule`);
+      const response = await fetch(`${getEnvOrThrow('VITE_API_URL')}/schedule`);
       const data = await response.json();
       setSchedule(data);
     };

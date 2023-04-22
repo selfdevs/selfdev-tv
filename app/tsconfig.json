@@ -2,8 +2,9 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "jsx": "react",
-    "module": "NodeNext",
+    "module": "ESNext",
     "moduleResolution": "Node",
-    "target": "ESNext"
+    "target": "ESNext",
+    "types": ["vite/client"]
   }
 }

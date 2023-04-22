@@ -1,10 +1,12 @@
+import { getEnvOrThrow } from '../utils/env';
+
 class ObsClient {
   private client: WebSocket;
   private connected: boolean = false;
 
   constructor() {
     console.log('ObsClient constructor');
-    this.client = new WebSocket('ws://bc.talpa-world.com:4455');
+    this.client = new WebSocket(getEnvOrThrow('OBS_WEBSOCKET_URL'));
 
     this.client.onopen = () => {
       console.log('ObsClient connected');

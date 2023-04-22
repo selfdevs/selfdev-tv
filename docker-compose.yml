@@ -29,5 +29,7 @@ services:
     container_name: front
     ports:
       - "5173:5173"
+    environment:
+      - OBS_WEBSOCKET_URL=ws://bc.talpa-world.com:4455
     depends_on:
       - api

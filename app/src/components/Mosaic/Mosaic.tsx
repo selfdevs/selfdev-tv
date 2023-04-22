@@ -1,5 +1,5 @@
 import React from 'react';
-import './mosaic.styles.css';
+import './mosaic.css';
 import Panel from '../Panel/Panel';
 import Preview from '../Preview/Preview';
 import SimpleTimeline from '../../SimpleTimeline/SimpleTimeline';
@@ -51,7 +51,7 @@ function Mosaic() {
       />
       <Logs
         style={{
-          gridColumn: '3 / 4',
+          gridColumn: '3 / 5',
           gridRow: 3,
         }}
       />

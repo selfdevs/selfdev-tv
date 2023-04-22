@@ -3,6 +3,14 @@ import useMedia from '../../hooks/useMedia';
 import Upload from '../Upload/Upload';
 import Button from '../Button/Button';
 import { getEnvOrThrow } from '../../utils/env';
+import Select from '../Select/Select';
+import TextInput from '../TextInput/TextInput';
+
+export type Media = {
+  id: string;
+  name: string;
+  filename: string;
+};
 
 const Schedule = () => {
   const media = useMedia();
@@ -25,14 +33,14 @@ const Schedule = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="datetime-local" name="startTime" />
-        <select name="mediaId">
-          {media.map((media) => (
+        <TextInput type="datetime-local" name="startTime" />
+        <Select name="mediaId">
+          {media.map((media: Media) => (
             <option key={media.id} value={media.id}>
               {media.name}
             </option>
           ))}
-        </select>
+        </Select>
         <Button type="submit">Schedule</Button>
       </form>
       <Upload />

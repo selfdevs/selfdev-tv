@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
-import './panel.styles.css';
+import './panel.css';
 import useCurrentScene from '../../hooks/useCurrentScene';
 import Button, { ButtonVariant } from '../Button/Button';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import Schedule from '../Schedule/Schedule';
 import LiveButton from '../LiveButton/LiveButton';
 import { useOBS } from '../../contexts/obs';
+import Fallback from '../Fallback/Fallback';
 
 type Props = {
   style?: React.CSSProperties;
@@ -73,17 +74,18 @@ const Panel = ({ style }: Props) => {
       >
         <Routes>
           <Route path="/scheduler" element={<Schedule />} />
+          <Route path="/fallback" element={<Fallback />} />
         </Routes>
       </div>
       <Button
-        onClick={() => navigate('/doc')}
-        active={pathname === '/doc'}
+        onClick={() => navigate('fallback')}
+        active={pathname.endsWith('fallback')}
         containerStyle={{
           gridColumn: 19,
           gridRow: 2,
         }}
       >
-        Doc
+        Fallback settings
       </Button>
       <Button
         onClick={() => navigate('scheduler')}

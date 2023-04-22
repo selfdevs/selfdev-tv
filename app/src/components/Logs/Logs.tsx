@@ -23,6 +23,9 @@ const Logs = ({ style }: LogsProps) => {
       'CurrentProgramSceneChanged',
       'SceneTransitionStarted',
       'SceneTransitionEnded',
+      'MediaInputPlaybackEnded',
+      'MediaInputPlaybackStarted',
+      'MediaInputActionTriggered',
     ];
     events.forEach((event) => {
       client.on(event, function (...args) {

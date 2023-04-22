@@ -1,4 +1,5 @@
 import WebSocket from "ws";
+import { getEnvOrThrow } from "../utils/env";
 
 class ObsClient {
   public client: WebSocket;
@@ -7,7 +8,7 @@ class ObsClient {
   async connect(): Promise<void> {
     console.log("ObsClient connecting...");
     return new Promise<void>((resolve, reject) => {
-      this.client = new WebSocket("ws://bc.talpa-world.com:4455");
+      this.client = new WebSocket(getEnvOrThrow("OBS_WEBSOCKET_URL"));
 
       this.client.onopen = () => {
         console.log("ObsClient connected");

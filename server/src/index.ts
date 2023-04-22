@@ -68,7 +68,6 @@ app.post('/upload', upload.single('video'), async (req, res) => {
   if (!req.file?.filename) return res.status(400).send('No file uploaded');
   console.log(req.file.filename);
   const mediaRepository = AppDataSource.getRepository(Media);
-  // @ts-ignore
   const duration = await getVideoDurationInSeconds(
     `assets/${req.file.filename}`,
   );

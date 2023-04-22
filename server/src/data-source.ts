@@ -3,7 +3,7 @@ import { getEnvOrDefault } from './utils/env';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
-  host: getEnvOrDefault('POSTGRES_HOST', 'localhost'),
+  host: getEnvOrDefault('DATABASE_HOST', 'localhost'),
   port: 5432,
   database: 'postgres',
   username: 'postgres',

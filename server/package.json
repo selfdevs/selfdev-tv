@@ -10,10 +10,10 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
     "@types/luxon": "^3.3.0",
     "@types/multer": "^1.4.7",
     "@types/node": "^18.15.11",
-    "@types/ws": "^8.5.4",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
@@ -24,8 +24,8 @@
     "get-video-duration": "^4.1.0",
     "luxon": "^3.3.0",
     "multer": "1.4.5-lts.1",
+    "obs-websocket-js": "^5.0.2",
     "pg": "^8.10.0",
-    "typeorm": "^0.3.14",
-    "ws": "^8.13.0"
+    "typeorm": "^0.3.14"
   }
 }

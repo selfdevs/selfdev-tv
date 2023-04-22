@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
+    "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "NodeNext",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": true
   }
 }

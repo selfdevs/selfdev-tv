@@ -1,15 +1,15 @@
-import express from "express";
-import cors from "cors";
-import ObsClient from "./services/ObsClient";
-import multer from "multer";
-import { DateTime } from "luxon";
-import AppDataSource from "./data-source";
-import { Media } from "./entities/Media";
-import getVideoDurationInSeconds from "get-video-duration";
-import { ScheduledEvent } from "./entities/ScheduledEvent";
-import { MoreThan } from "typeorm";
+import express, { Request } from 'express';
+import cors from 'cors';
+import multer from 'multer';
+import { DateTime } from 'luxon';
+import AppDataSource from './data-source';
+import { Media } from './entities/Media';
+import getVideoDurationInSeconds from 'get-video-duration';
+import { ScheduledEvent } from './entities/ScheduledEvent';
+import { MoreThan } from 'typeorm';
+import { getConnectedClient } from './utils/obs';
 
-const upload = multer({ dest: "assets/" });
+const upload = multer({ dest: 'assets/' });
 
 const app = express();
 
@@ -24,9 +24,9 @@ setInterval(async () => {
     where: {
       startTime: MoreThan(DateTime.now().toJSDate()),
     },
-    relations: ["media"],
+    relations: ['media'],
     order: {
-      startTime: "ASC",
+      startTime: 'ASC',
     },
   });
   console.log(queue);
@@ -40,31 +40,36 @@ setInterval(async () => {
 }, TICKET_INTERVAL);
 
 async function runMedia(filename: string) {
-  console.log("run media");
+  console.log('Play scheduled media');
+  const obs = await getConnectedClient();
+  await obs.call('SetInputSettings', {
+    inputName: 'scheduled_media',
+    inputSettings: {
+      local_file: '/home/cchampou/code/broadcast/server/assets/' + filename,
+    },
+  });
+  await obs.call('SetCurrentProgramScene', {
+    sceneName: 'schedule',
+  });
+
   return new Promise((resolve) => {
-    ObsClient.setInputSettings("scheduled_media", {
-      local_file: "/home/cchampou/code/broadcast/server/assets/" + filename,
-    });
-    ObsClient.switchToScene("schedule");
-    ObsClient.client.addEventListener("message", (message) => {
-      const data = JSON.parse(message.data.toString());
-      if (
-        data.op === 5 &&
-        data.d.eventData.inputName === "scheduled_media" &&
-        data.d.eventType === "MediaInputPlaybackEnded"
-      ) {
-        ObsClient.switchToScene("fallback");
-        return resolve("ok");
-      }
+    obs.on('MediaInputPlaybackEnded', async ({ inputName }) => {
+      if (inputName !== 'scheduled_media') return;
+      console.log('Scheduled media ended');
+      await obs.call('SetCurrentProgramScene', {
+        sceneName: 'fallback',
+      });
+      return resolve('ok');
     });
   });
 }
 
-app.post("/upload", upload.single("video"), async (req, res) => {
+app.post('/upload', upload.single('video'), async (req, res) => {
+  if (!req.file?.filename) return res.status(400).send('No file uploaded');
   console.log(req.file.filename);
   const mediaRepository = AppDataSource.getRepository(Media);
   const duration = await getVideoDurationInSeconds(
-    `assets/${req.file.filename}`
+    `assets/${req.file.filename}`,
   );
   const newMediaEntry = mediaRepository.create({
     filename: req.file.filename,
@@ -72,56 +77,53 @@ app.post("/upload", upload.single("video"), async (req, res) => {
     name: req.body.name,
   });
   await mediaRepository.save(newMediaEntry);
-  res.send("ok");
+  res.send('ok');
 });
 
-app.get("/media", async (req, res) => {
+app.get('/media', async (req, res) => {
   const mediaRepository = AppDataSource.getRepository(Media);
   const media = await mediaRepository.find();
   res.send(media);
 });
 
-app.post("/queue", async (req, res) => {
+app.post('/queue', async (req, res) => {
   console.log(req.body);
   const mediaRepository = AppDataSource.getRepository(Media);
   const scheduledEventRepository = AppDataSource.getRepository(ScheduledEvent);
   const mediaId = req.body.mediaId;
   const startTime = DateTime.fromISO(req.body.startTime);
   const media = await mediaRepository.findOneBy({ id: mediaId });
+  if (!media) return res.status(400).send('Media not found');
   const newEvent = scheduledEventRepository.create({
     media,
     startTime,
   });
   await scheduledEventRepository.save(newEvent);
-  res.send("ok");
+  res.send('ok');
 });
 
-app.get("/schedule", async (req, res) => {
+app.get('/schedule', async (req: Request, res) => {
   const scheduledEventRepository = AppDataSource.getRepository(ScheduledEvent);
   const schedule = await scheduledEventRepository.find({
-    relations: ["media"],
+    relations: ['media'],
     where: {
       startTime: MoreThan(DateTime.now().toJSDate()),
     },
     order: {
-      startTime: "ASC",
+      startTime: 'ASC',
     },
   });
   res.send(schedule);
 });
 
-ObsClient.connect().then(() => {
-  console.log("Connected to OBS");
-});
-
 AppDataSource.initialize()
   .then(() => {
-    console.log("Data Source has been initialized!");
+    console.log('Data Source has been initialized!');
   })
   .catch((err) => {
-    console.error("Error during Data Source initialization", err);
+    console.error('Error during Data Source initialization', err);
   });
 
 app.listen(3000, () => {
-  console.log("Server is listening on port 3000");
+  console.log('Server is listening on port 3000');
 });

@@ -1,26 +1,26 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { ScheduledEvent } from "./ScheduledEvent";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ScheduledEvent } from './ScheduledEvent';
 
 @Entity()
 export class Media {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({
     nullable: false,
   })
-  name: string;
+  name!: string;
 
   @Column({
     nullable: false,
   })
-  filename: string;
+  filename!: string;
 
   @Column({
     nullable: false,
   })
-  length: number;
+  length!: number;
 
   @OneToMany(() => ScheduledEvent, (scheduledEvent) => scheduledEvent.media)
-  scheduledEvents: ScheduledEvent[];
+  scheduledEvents!: ScheduledEvent[];
 }

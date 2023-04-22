@@ -22,6 +22,7 @@ services:
       - "3000:3000"
     environment:
       - OBS_WEBSOCKET_URL=ws://bc.talpa-world.com:4455
+      - DATABASE_HOST=db
   front:
     build:
       context: app

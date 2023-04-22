@@ -36,6 +36,7 @@ export const OBSProvider = ({ children }: PropsWithChildren) => {
         getEnvOrThrow('VITE_OBS_WEBSOCKET_URL'),
         password,
       );
+      localStorage.setItem('obsPassword', password);
     } catch (e) {
       navigate('/');
       console.error(e);
@@ -61,6 +62,12 @@ export const OBSProvider = ({ children }: PropsWithChildren) => {
   );
 
   useEffect(() => {
+    const localPassword = localStorage.getItem('obsPassword');
+    if (localPassword) {
+      connect(localPassword).then(() => {
+        navigate('mosaic');
+      });
+    }
     client.current.on('ConnectionClosed', (e) => {
       console.log('Connection closed');
       navigate('/');

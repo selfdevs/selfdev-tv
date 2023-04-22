@@ -2,7 +2,7 @@ import React from 'react';
 import './textInput.css';
 
 type Props = {
-  type?: 'text' | 'password';
+  type?: 'text' | 'password' | 'datetime-local';
   name?: string;
 } & React.HTMLAttributes<HTMLInputElement>;
 

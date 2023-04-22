@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import mire from '../../assets/mire.jpeg';
-import './preview.styles.css';
+import './preview.css';
 import useCurrentScene from '../../hooks/useCurrentScene';
 import { useOBS } from '../../contexts/obs';
 

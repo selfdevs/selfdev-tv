@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
-import obsClient from '../services/ObsClient';
+import { getObsClient } from '../utils/obs';
 
 const useCurrentScene = () => {
   const [currentScene, setCurrentScene] = React.useState<string>('fallback');
 
-  const tick = () => {
-    obsClient.getCurrentScene()?.then((scene) => {
-      setCurrentScene(scene);
-    });
+  const tick = async () => {
+    const client = await getObsClient();
+    const { currentProgramSceneName } = await client.call(
+      'GetCurrentProgramScene',
+    );
+    setCurrentScene(currentProgramSceneName);
   };
 
   useEffect(() => {

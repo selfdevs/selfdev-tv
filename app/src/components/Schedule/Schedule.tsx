@@ -1,8 +1,8 @@
 import React from 'react';
-import useMedia from '../hooks/useMedia';
+import useMedia from '../../hooks/useMedia';
 import Upload from '../Upload/Upload';
-import Button from '../components/Button/Button';
-import { API_URL } from '../index';
+import Button from '../Button/Button';
+import { getEnvOrThrow } from '../../utils/env';
 
 const Schedule = () => {
   const media = useMedia();
@@ -13,7 +13,7 @@ const Schedule = () => {
     const startTime = formData.get('startTime');
     const mediaId = formData.get('mediaId');
     console.log({ startTime, mediaId });
-    fetch(`${API_URL}/queue`, {
+    fetch(`${getEnvOrThrow('VITE_API_URL')}/queue`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

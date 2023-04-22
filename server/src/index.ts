@@ -16,7 +16,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const TICKET_INTERVAL = 1000;
+const TICKER_INTERVAL = 1000;
 
 setInterval(async () => {
   const scheduledEventsRepository = AppDataSource.getRepository(ScheduledEvent);
@@ -29,15 +29,15 @@ setInterval(async () => {
       startTime: 'ASC',
     },
   });
-  console.log(queue);
   if (
     DateTime.fromJSDate(queue[0]?.startTime).minus({
-      millisecond: TICKET_INTERVAL,
+      millisecond: TICKER_INTERVAL,
     }) < DateTime.now()
   ) {
+    console.log('Found scheduled media to play');
     await runMedia(queue[0].media.filename);
   }
-}, TICKET_INTERVAL);
+}, TICKER_INTERVAL);
 
 async function runMedia(filename: string) {
   console.log('Play scheduled media');

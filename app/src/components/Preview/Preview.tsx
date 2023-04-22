@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import mire from '../../assets/mire.jpeg';
 import './preview.styles.css';
-import ObsClient from '../../services/ObsClient';
 import useCurrentScene from '../../hooks/useCurrentScene';
-import { getObsClient } from '../../utils/obs';
+import { useOBS } from '../../contexts/obs';
 
 type Props = {
   style?: React.CSSProperties;
@@ -14,10 +13,12 @@ const Preview = ({ style, endpoint }: Props) => {
   const currentScene = useCurrentScene();
   const [image, setImage] = React.useState<string>(mire);
   const ticket = useRef<number>();
+  const { getOBSClient } = useOBS();
 
   useEffect(() => {
     ticket.current = setInterval(async () => {
-      const client = await getObsClient();
+      const client = await getOBSClient();
+      if (!client) return;
       const { imageData } = await client.call('GetSourceScreenshot', {
         sourceName: endpoint === 'program' ? currentScene : endpoint,
         imageFormat: 'jpeg',

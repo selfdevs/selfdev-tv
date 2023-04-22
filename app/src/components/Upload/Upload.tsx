@@ -25,7 +25,7 @@ const Upload = () => {
           type="button"
           onClick={() => {
             const input = document.getElementById('video');
-            input.click();
+            if (input) input.click();
             setFilePicking('pending');
           }}
           pending={filePicking === 'pending'}
@@ -40,7 +40,7 @@ const Upload = () => {
           name="video"
           accept={'.mp4'}
           onChange={(e) => {
-            setFilePicking(e.target.files[0].name);
+            if (e.target.files?.length) setFilePicking(e.target.files[0].name);
           }}
           id="video"
           style={{ width: 0, height: 0 }}

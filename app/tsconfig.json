@@ -5,6 +5,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "target": "ESNext",
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "strict": true
   }
 }

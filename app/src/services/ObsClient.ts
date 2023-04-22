@@ -6,7 +6,7 @@ class ObsClient {
 
   constructor() {
     console.log('ObsClient constructor');
-    this.client = new WebSocket(getEnvOrThrow('OBS_WEBSOCKET_URL'));
+    this.client = new WebSocket(getEnvOrThrow('VITE_OBS_WEBSOCKET_URL'));
 
     this.client.onopen = () => {
       console.log('ObsClient connected');

@@ -4,5 +4,6 @@
     "moduleResolution": "NodeNext",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "types": ["src/types/*.d.ts"],
   }
 }

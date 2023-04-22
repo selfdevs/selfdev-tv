@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Button, { ButtonVariant } from '../Button/Button';
-import { getObsClient } from '../../utils/obs';
+import { useOBS } from '../../contexts/obs';
 
 type LiveButtonProps = {
   style?: React.CSSProperties;
@@ -8,9 +8,11 @@ type LiveButtonProps = {
 
 const LiveButton = ({ style }: LiveButtonProps) => {
   const [isLive, setIsLive] = React.useState<boolean>(false);
+  const { getOBSClient } = useOBS();
 
   const getLiveStatus = async () => {
-    const client = await getObsClient();
+    const client = await getOBSClient();
+    if (!client) return console.error('No client');
     const { outputActive } = await client.call('GetStreamStatus');
     setIsLive(outputActive);
   };

@@ -4,8 +4,8 @@ import useCurrentScene from '../../hooks/useCurrentScene';
 import Button, { ButtonVariant } from '../Button/Button';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import Schedule from '../Schedule/Schedule';
-import { getObsClient } from '../../utils/obs';
 import LiveButton from '../LiveButton/LiveButton';
+import { useOBS } from '../../contexts/obs';
 
 type Props = {
   style?: React.CSSProperties;
@@ -13,13 +13,17 @@ type Props = {
 
 const Panel = ({ style }: Props) => {
   const { pathname } = useLocation();
+  const { getOBSClient } = useOBS();
   const navigate = useNavigate();
   const [pendingScene, setPendingScene] = React.useState<string>('');
   const currentScene = useCurrentScene();
 
   const handleChange = async (newSceneName: string) => {
     setPendingScene(newSceneName);
-    const client = await getObsClient();
+    const client = await getOBSClient();
+    if (!client) {
+      return console.error('No client');
+    }
     await client.call('SetCurrentProgramScene', { sceneName: newSceneName });
   };
 

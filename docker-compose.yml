@@ -20,9 +20,8 @@ services:
       - ./server/assets:/app/assets:rw
     ports:
       - "3000:3000"
-    environment:
-      - OBS_WEBSOCKET_URL=ws://bc.talpa-world.com:4455
-      - DATABASE_HOST=db
+    env_file:
+      - ./server/.env
   front:
     build:
       context: app
@@ -30,8 +29,5 @@ services:
     container_name: front
     ports:
       - "5173:5173"
-    environment:
-      - VITE_OBS_WEBSOCKET_URL=ws://bc.talpa-world.com:4455
-      - VITE_API_URL=http://bc.talpa-world.com:3000
     depends_on:
       - api

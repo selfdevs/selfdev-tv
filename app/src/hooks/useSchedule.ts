@@ -3,7 +3,7 @@ import { getEnvOrThrow } from '../utils/env';
 
 const useSchedule = () => {
   const [schedule, setSchedule] = useState([]);
-  const intervalRef = useRef(null);
+  const intervalRef = useRef<number>();
 
   useEffect(() => {
     const fetchSchedule = async () => {

@@ -1,14 +1,15 @@
-import React, { useEffect, useRef } from 'react';
-import { getObsClient } from '../../utils/obs';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { OBSEventTypes } from 'obs-websocket-js';
+import { useOBS } from '../../contexts/obs';
 
 type LogsProps = {
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 };
 
 const Logs = ({ style }: LogsProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [logs, setLogs] = React.useState<string[]>(Array(100).fill('Logs'));
+  const [logs, setLogs] = useState<string[]>(['Logs:']);
+  const { getOBSClient } = useOBS();
 
   const addLogAndScroll = (log: string) => {
     setLogs((logs) => [...logs, log]);
@@ -16,15 +17,16 @@ const Logs = ({ style }: LogsProps) => {
   };
 
   const init = async () => {
-    const client = await getObsClient();
+    const client = await getOBSClient();
+    if (!client) return console.error('No client');
     const events: Array<keyof OBSEventTypes> = [
       'CurrentProgramSceneChanged',
       'SceneTransitionStarted',
       'SceneTransitionEnded',
     ];
     events.forEach((event) => {
-      client.on(event, (data: any) => {
-        addLogAndScroll(`${event}: ${JSON.stringify(data)}`);
+      client.on(event, function (...args) {
+        addLogAndScroll(`${event}: ${JSON.stringify(args[0])}`);
       });
     });
   };

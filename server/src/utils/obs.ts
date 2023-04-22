@@ -6,8 +6,12 @@
 import OBSWebSocket from 'obs-websocket-js';
 import { getEnvOrThrow } from './env';
 
+const client = new OBSWebSocket();
+
 export const getConnectedClient = async () => {
-  const client = new OBSWebSocket();
-  await client.connect(getEnvOrThrow('OBS_WEBSOCKET_URL'));
+  await client.connect(
+    getEnvOrThrow('OBS_WEBSOCKET_URL'),
+    getEnvOrThrow('OBS_WEBSOCKET_PASSWORD'),
+  );
   return client;
 };

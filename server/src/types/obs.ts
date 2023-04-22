@@ -1,4 +1,4 @@
-declare enum ObsRequestType {
+export enum ObsRequestType {
   GetSceneList = "GetSceneList",
   CreateInput = "CreateInput",
   GetInputKindList = "GetInputKindList",

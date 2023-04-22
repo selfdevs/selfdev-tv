@@ -1,23 +1,24 @@
-import WebSocket from "ws";
-import { getEnvOrThrow } from "../utils/env";
+import WebSocket from 'ws';
+import { getEnvOrThrow } from '../utils/env';
+import { ObsRequestType } from '../types/obs';
 
 class ObsClient {
   public client: WebSocket;
   private connected: boolean = false;
 
   async connect(): Promise<void> {
-    console.log("ObsClient connecting...");
+    console.log('ObsClient connecting...');
     return new Promise<void>((resolve, reject) => {
-      this.client = new WebSocket(getEnvOrThrow("OBS_WEBSOCKET_URL"));
+      this.client = new WebSocket(getEnvOrThrow('OBS_WEBSOCKET_URL'));
 
       this.client.onopen = () => {
-        console.log("ObsClient connected");
+        console.log('ObsClient connected');
         this.connected = true;
         this.identify();
         resolve();
       };
 
-      this.client.addEventListener("message", (message) => {
+      this.client.addEventListener('message', (message) => {
         const data = JSON.parse(message.data.toString());
         console.log(data);
       });
@@ -35,13 +36,13 @@ class ObsClient {
         d: {
           rpcVersion: 1,
         },
-      })
+      }),
     );
   }
 
   private async sendRequest<T extends ObsRequestType>(
     requestType: T,
-    requestData: any
+    requestData: any,
   ): Promise<any> {
     const requestId = Math.random().toString(16).substr(2, 8);
     this.client.send(
@@ -52,17 +53,17 @@ class ObsClient {
           requestId,
           requestData,
         },
-      })
+      }),
     );
     return new Promise((resolve) => {
       const listener = (message) => {
         const data = JSON.parse(message.data.toString());
         if (data.d.requestId === requestId) {
           resolve(data);
-          this.client.removeEventListener("message", listener);
+          this.client.removeEventListener('message', listener);
         }
       };
-      this.client.addEventListener("message", listener);
+      this.client.addEventListener('message', listener);
     });
   }
 
@@ -72,12 +73,12 @@ class ObsClient {
 
   public createInput(): Promise<any> {
     return this.sendRequest(ObsRequestType.CreateInput, {
-      inputName: "test",
-      inputKind: "ffmpeg_source",
-      sceneName: "slot1",
+      inputName: 'test',
+      inputKind: 'ffmpeg_source',
+      sceneName: 'slot1',
       inputSettings: {
         local_file:
-          "/Users/experimental/dev/broadcast-preview/server/assets/particules.mp4",
+          '/Users/experimental/dev/broadcast-preview/server/assets/particules.mp4',
       },
     });
   }
@@ -102,13 +103,13 @@ class ObsClient {
       JSON.stringify({
         op: 6,
         d: {
-          requestType: "SetCurrentProgramScene",
-          requestId: "f819dcf0-89cc-11eb-8f0e-382c4ac93b9c",
+          requestType: 'SetCurrentProgramScene',
+          requestId: 'f819dcf0-89cc-11eb-8f0e-382c4ac93b9c',
           requestData: {
             sceneName,
           },
         },
-      })
+      }),
     );
   }
 }

@@ -40,7 +40,7 @@ setInterval(async () => {
 }, TICKET_INTERVAL);
 
 async function runMedia(filename: string) {
-  console.log("run media");
+  console.log("Play scheduled media");
   return new Promise((resolve) => {
     ObsClient.setInputSettings("scheduled_media", {
       local_file: "/home/cchampou/code/broadcast/server/assets/" + filename,
@@ -53,6 +53,7 @@ async function runMedia(filename: string) {
         data.d.eventData.inputName === "scheduled_media" &&
         data.d.eventType === "MediaInputPlaybackEnded"
       ) {
+        console.log("Scheduled media ended");
         ObsClient.switchToScene("fallback");
         return resolve("ok");
       }

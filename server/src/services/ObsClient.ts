@@ -39,8 +39,8 @@ class ObsClient {
     );
   }
 
-  private async sendRequest(
-    requestType: string,
+  private async sendRequest<T extends ObsRequestType>(
+    requestType: T,
     requestData: any
   ): Promise<any> {
     const requestId = Math.random().toString(16).substr(2, 8);
@@ -67,11 +67,11 @@ class ObsClient {
   }
 
   public getInputKindList(): Promise<any> {
-    return this.sendRequest("GetInputKindList", {});
+    return this.sendRequest(ObsRequestType.GetInputKindList, {});
   }
 
   public createInput(): Promise<any> {
-    return this.sendRequest("CreateInput", {
+    return this.sendRequest(ObsRequestType.CreateInput, {
       inputName: "test",
       inputKind: "ffmpeg_source",
       sceneName: "slot1",
@@ -83,15 +83,18 @@ class ObsClient {
   }
 
   public getInputsList(): Promise<any> {
-    return this.sendRequest("GetInputList", {});
+    return this.sendRequest(ObsRequestType.GetInputList, {});
   }
 
   public getInputSettings(inputName: string): Promise<any> {
-    return this.sendRequest("GetInputSettings", { inputName });
+    return this.sendRequest(ObsRequestType.GetInputSettings, { inputName });
   }
 
   public setInputSettings(inputName: string, inputSettings: any): Promise<any> {
-    return this.sendRequest("SetInputSettings", { inputName, inputSettings });
+    return this.sendRequest(ObsRequestType.SetInputSettings, {
+      inputName,
+      inputSettings,
+    });
   }
   public switchToScene(sceneName: string): void {
     if (!this.isConnected) return;

@@ -4,30 +4,30 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   Relation,
-} from "typeorm";
-import { Epg } from "./Epg";
-import { Media } from "./Media";
+} from 'typeorm';
+import { Epg } from './Epg';
+import { Media } from './Media';
 
 @Entity()
 export class ScheduledEvent {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  startTime: Date;
+  startTime!: Date;
 
   @Column({
     nullable: true,
   })
-  duration: number;
+  duration!: number;
 
   @ManyToOne(() => Media, (media) => media.scheduledEvents, {
     nullable: true,
   })
-  media: Relation<Media>;
+  media!: Relation<Media>;
 
   @ManyToOne(() => Epg, (epg) => epg.scheduledEvents, {
     nullable: true,
   })
-  epg: Relation<Epg>;
+  epg!: Relation<Epg>;
 }

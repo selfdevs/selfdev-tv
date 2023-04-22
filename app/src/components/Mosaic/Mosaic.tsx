@@ -3,6 +3,7 @@ import './mosaic.styles.css';
 import Panel from '../Panel/Panel';
 import Preview from '../Preview/Preview';
 import SimpleTimeline from '../../SimpleTimeline/SimpleTimeline';
+import Logs from '../Logs/Logs';
 
 function Mosaic() {
   return (
@@ -44,7 +45,13 @@ function Mosaic() {
       />
       <SimpleTimeline
         style={{
-          gridColumn: '1 / 5',
+          gridColumn: '1 / 3',
+          gridRow: 3,
+        }}
+      />
+      <Logs
+        style={{
+          gridColumn: '3 / 4',
           gridRow: 3,
         }}
       />

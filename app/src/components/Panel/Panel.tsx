@@ -86,8 +86,8 @@ const Panel = ({ style }: Props) => {
         Doc
       </Button>
       <Button
-        onClick={() => navigate('/scheduler')}
-        active={pathname === '/scheduler'}
+        onClick={() => navigate('scheduler')}
+        active={pathname.endsWith('scheduler')}
         containerStyle={{
           gridColumn: 19,
           gridRow: 3,

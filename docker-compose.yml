@@ -20,6 +20,8 @@ services:
       - ./server/assets:/app/assets:rw
     ports:
       - "3000:3000"
+    environment:
+      - OBS_WEBSOCKET_URL=ws://bc.talpa-world.com:4455
   front:
     build:
       context: app

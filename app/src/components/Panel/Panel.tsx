@@ -7,6 +7,7 @@ import Schedule from '../Schedule/Schedule';
 import LiveButton from '../LiveButton/LiveButton';
 import { useOBS } from '../../contexts/obs';
 import Fallback from '../Fallback/Fallback';
+import Upload from '../Upload/Upload';
 
 type Props = {
   style?: React.CSSProperties;
@@ -69,17 +70,30 @@ const Panel = ({ style }: Props) => {
       <div
         style={{
           gridColumn: '7 / 19',
-          gridRow: '2 / 10',
+          gridRow: '1 / 10',
         }}
       >
         <Routes>
           <Route path="/scheduler" element={<Schedule />} />
           <Route path="/fallback" element={<Fallback />} />
+          <Route path="/upload" element={<Upload />} />
         </Routes>
       </div>
       <Button
+        onClick={() => navigate('upload')}
+        active={pathname.endsWith('upload')}
+        compact
+        containerStyle={{
+          gridColumn: 19,
+          gridRow: 1,
+        }}
+      >
+        Media manager
+      </Button>
+      <Button
         onClick={() => navigate('fallback')}
         active={pathname.endsWith('fallback')}
+        compact
         containerStyle={{
           gridColumn: 19,
           gridRow: 2,
@@ -90,6 +104,7 @@ const Panel = ({ style }: Props) => {
       <Button
         onClick={() => navigate('scheduler')}
         active={pathname.endsWith('scheduler')}
+        compact
         containerStyle={{
           gridColumn: 19,
           gridRow: 3,

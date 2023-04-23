@@ -27,6 +27,11 @@ const Logs = ({ style }: LogsProps) => {
       'MediaInputPlaybackStarted',
       'MediaInputActionTriggered',
       'StreamStateChanged',
+      'InputShowStateChanged',
+      'InputVolumeChanged',
+      'InputMuteStateChanged',
+      'InputNameChanged',
+      'InputRemoved',
     ];
     events.forEach((event) => {
       client.on(event, function (...args) {

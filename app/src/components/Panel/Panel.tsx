@@ -8,6 +8,8 @@ import LiveButton from '../LiveButton/LiveButton';
 import { useOBS } from '../../contexts/obs';
 import Fallback from '../Fallback/Fallback';
 import Upload from '../Upload/Upload';
+import Settings from '../Settings/Settings';
+import { SCENE_NAMES } from '../../constants/obs';
 
 type Props = {
   style?: React.CSSProperties;
@@ -35,38 +37,17 @@ const Panel = ({ style }: Props) => {
 
   return (
     <div style={style} className="panel">
-      <Button
-        onClick={() => handleChange('fallback')}
-        active={currentScene === 'fallback'}
-        pending={pendingScene === 'fallback'}
-        variant={ButtonVariant.GOLD}
-      >
-        Fallback
-      </Button>
-      <Button
-        onClick={() => handleChange('schedule')}
-        active={currentScene === 'schedule'}
-        pending={pendingScene === 'schedule'}
-        variant={ButtonVariant.GOLD}
-      >
-        Schedule
-      </Button>
-      <Button
-        onClick={() => handleChange('slot1')}
-        active={currentScene === 'slot1'}
-        pending={pendingScene === 'slot1'}
-        variant={ButtonVariant.GOLD}
-      >
-        Slot 1
-      </Button>
-      <Button
-        onClick={() => handleChange('slot2')}
-        active={currentScene === 'slot2'}
-        pending={pendingScene === 'slot2'}
-        variant={ButtonVariant.GOLD}
-      >
-        Slot 2
-      </Button>
+      {SCENE_NAMES.map((sceneName) => (
+        <Button
+          key={sceneName}
+          onClick={() => handleChange(sceneName)}
+          active={currentScene === sceneName}
+          pending={pendingScene === sceneName}
+          variant={ButtonVariant.GOLD}
+        >
+          {sceneName.toUpperCase()}
+        </Button>
+      ))}
       <div
         style={{
           gridColumn: '7 / 19',
@@ -77,6 +58,7 @@ const Panel = ({ style }: Props) => {
           <Route path="/scheduler" element={<Schedule />} />
           <Route path="/fallback" element={<Fallback />} />
           <Route path="/upload" element={<Upload />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </div>
       <Button
@@ -111,6 +93,17 @@ const Panel = ({ style }: Props) => {
         }}
       >
         Scheduler
+      </Button>
+      <Button
+        onClick={() => navigate('settings')}
+        active={pathname.endsWith('settings')}
+        compact
+        containerStyle={{
+          gridColumn: 19,
+          gridRow: 4,
+        }}
+      >
+        Stream settings
       </Button>
       <LiveButton
         style={{

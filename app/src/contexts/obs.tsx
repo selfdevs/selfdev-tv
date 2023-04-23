@@ -5,11 +5,12 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react';
 
 import OBSWebSocket from 'obs-websocket-js';
 import { getEnvOrThrow } from '../utils/env';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 type OBSContext = {
   getOBSClient: () => Promise<OBSWebSocket | undefined>;
@@ -26,8 +27,10 @@ const obsContext = createContext<OBSContext>({
 });
 
 export const OBSProvider = ({ children }: PropsWithChildren) => {
+  const [isConnected, setIsConnected] = useState<boolean>(false);
   const client = useRef<OBSWebSocket>(new OBSWebSocket());
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const connect = async (password: string) => {
     console.log('Connecting to OBS');
@@ -36,10 +39,14 @@ export const OBSProvider = ({ children }: PropsWithChildren) => {
         getEnvOrThrow('VITE_OBS_WEBSOCKET_URL'),
         password,
       );
+      await client.current.call('GetStreamStatus');
+      console.log('Connection opened');
       localStorage.setItem('obsPassword', password);
+      setIsConnected(true);
+      if (pathname === '/') navigate('/mosaic');
     } catch (e) {
       navigate('/');
-      console.error(e);
+      setIsConnected(false);
     }
   };
 
@@ -64,19 +71,23 @@ export const OBSProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const localPassword = localStorage.getItem('obsPassword');
     if (localPassword) {
-      connect(localPassword).then(() => {
-        navigate('mosaic');
-      });
+      void connect(localPassword);
+    } else {
+      navigate('/');
     }
     client.current.on('ConnectionClosed', (e) => {
       console.log('Connection closed');
+      setIsConnected(false);
       navigate('/');
     });
     client.current.on('ConnectionError', () => {
       console.log('Connection error');
+      setIsConnected(false);
       navigate('/');
     });
   }, []);
+
+  if (!isConnected && pathname !== '/') return null;
 
   return (
     <obsContext.Provider value={contextValue}>{children}</obsContext.Provider>

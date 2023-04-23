@@ -1,20 +1,22 @@
 import { Component } from 'react';
 
 class ErrorBoundary extends Component<any, any> {
-  state = { hasError: false };
+  state = { hasError: false, error: null };
 
   static getDerivedStateFromError(error: Error) {
-    return { hasError: true };
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.log('ErrorBoundary');
-    console.log(error, errorInfo);
-    window.location.href = '/';
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 3000);
   }
 
   render() {
-    return this.state.hasError ? null : this.props.children;
+    return this.state.hasError
+      ? `A fatal error has occurred, refreshing in 3 seconds...\n${this.state.error}`
+      : this.props.children;
   }
 }
 

@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useRef, useState } from 'react';
-import { OBSEventTypes } from 'obs-websocket-js';
 import { useOBS } from '../../contexts/obs';
+import { EVENTS } from '../../constants/obs';
 
 type LogsProps = {
   style?: CSSProperties;
@@ -19,16 +19,7 @@ const Logs = ({ style }: LogsProps) => {
   const init = async () => {
     const client = await getOBSClient();
     if (!client) return console.error('No client');
-    const events: Array<keyof OBSEventTypes> = [
-      'CurrentProgramSceneChanged',
-      'SceneTransitionStarted',
-      'SceneTransitionEnded',
-      'MediaInputPlaybackEnded',
-      'MediaInputPlaybackStarted',
-      'MediaInputActionTriggered',
-      'StreamStateChanged',
-    ];
-    events.forEach((event) => {
+    EVENTS.forEach((event) => {
       client.on(event, function (...args) {
         addLogAndScroll(`${event}: ${JSON.stringify(args[0])}`);
       });

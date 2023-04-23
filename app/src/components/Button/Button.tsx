@@ -8,6 +8,7 @@ type Props = {
   containerStyle?: React.CSSProperties;
   type?: 'button' | 'submit' | 'reset';
   compact?: boolean;
+  disabled?: boolean;
 } & React.HTMLAttributes<HTMLButtonElement>;
 
 export enum ButtonVariant {
@@ -24,6 +25,7 @@ const Button = ({
   onMouseDown,
   containerStyle,
   children,
+  disabled,
   compact = false,
   ...props
 }: Props) => {
@@ -61,6 +63,7 @@ const Button = ({
         data-compact={compact}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
+        disabled={disabled}
         {...props}
       >
         <span>{children}</span>

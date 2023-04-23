@@ -26,6 +26,7 @@ const Logs = ({ style }: LogsProps) => {
       'MediaInputPlaybackEnded',
       'MediaInputPlaybackStarted',
       'MediaInputActionTriggered',
+      'StreamStateChanged',
     ];
     events.forEach((event) => {
       client.on(event, function (...args) {

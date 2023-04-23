@@ -50,7 +50,7 @@ const Button = ({
     setBlinker(true);
     const interval = setInterval(() => {
       setBlinker((state) => !state);
-    }, 500);
+    }, 100);
     return () => clearInterval(interval);
   }, [pending]);
 
@@ -58,7 +58,7 @@ const Button = ({
     <div className="button-container" style={containerStyle}>
       <button
         data-variant={variant}
-        data-active={active || blinker}
+        data-active={pending ? blinker : active}
         data-pressed={isPressed}
         data-compact={compact}
         onMouseDown={handleMouseDown}

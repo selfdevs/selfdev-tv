@@ -54,3 +54,11 @@ button[data-active="true"] {
 button[data-pressed="true"] {
     border-style: inset;
 }
+
+button[data-compact="true"] span {
+    white-space: normal;
+    display: block;
+    text-overflow: clip;
+    font-size: 10px;
+    font-weight: normal;
+}

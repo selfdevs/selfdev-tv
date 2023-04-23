@@ -1,6 +1,5 @@
 import React from 'react';
 import useMedia from '../../hooks/useMedia';
-import Upload from '../Upload/Upload';
 import Button from '../Button/Button';
 import { getEnvOrThrow } from '../../utils/env';
 import Select from '../Select/Select';
@@ -43,7 +42,6 @@ const Schedule = () => {
         </Select>
         <Button type="submit">Schedule</Button>
       </form>
-      <Upload />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { MouseEventHandler, useEffect } from 'react';
 import './button.css';
 
 type Props = {
@@ -7,6 +7,7 @@ type Props = {
   pending?: boolean;
   containerStyle?: React.CSSProperties;
   type?: 'button' | 'submit' | 'reset';
+  compact?: boolean;
 } & React.HTMLAttributes<HTMLButtonElement>;
 
 export enum ButtonVariant {
@@ -23,17 +24,18 @@ const Button = ({
   onMouseDown,
   containerStyle,
   children,
+  compact = false,
   ...props
 }: Props) => {
   const [isPressed, setIsPressed] = React.useState(false);
   const [blinker, setBlinker] = React.useState(false);
 
-  const handleMouseDown = (e) => {
+  const handleMouseDown: MouseEventHandler<HTMLButtonElement> = (e) => {
     onMouseDown && onMouseDown(e);
     setIsPressed(true);
   };
 
-  const handleMouseUp = (e) => {
+  const handleMouseUp: MouseEventHandler<HTMLButtonElement> = (e) => {
     onMouseUp && onMouseUp(e);
     setIsPressed(false);
   };
@@ -56,6 +58,7 @@ const Button = ({
         data-variant={variant}
         data-active={active || blinker}
         data-pressed={isPressed}
+        data-compact={compact}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         {...props}

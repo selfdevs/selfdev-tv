@@ -10,17 +10,18 @@ const Upload = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    setLoading(true);
     const video = formData.get('video');
-    console.log(typeof video);
-    console.log('test');
-    // fetch(`${getEnvOrThrow('VITE_API_URL')}/upload`, {
-    //   method: 'POST',
-    //   body: formData,
-    // }).then(() => setLoading(false));
+    if (video instanceof File && video.size === 0) return;
+    if (formData.get('name') === '') return;
+    setLoading(true);
+    fetch(`${getEnvOrThrow('VITE_API_URL')}/upload`, {
+      method: 'POST',
+      body: formData,
+    })
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
   };
 
-  console.log(filePicking);
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="video">

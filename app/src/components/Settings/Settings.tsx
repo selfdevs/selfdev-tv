@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { FormEventHandler, useEffect, useState } from 'react';
 import Button from '../Button/Button';
 import { useOBS } from '../../contexts/obs';
 import { SCENE_NAMES } from '../../constants/obs';
+import TextInput from '../TextInput/TextInput';
 
 function getWatermarkInSceneItems(
   sceneItems: Record<any, any>[],
@@ -10,6 +11,7 @@ function getWatermarkInSceneItems(
 }
 
 const Settings = () => {
+  const [streamKey, setStreamKey] = useState('');
   const [isWatermarkEnabled, setIsWatermarkEnabled] = useState(false);
   const { getOBSClient } = useOBS();
 
@@ -43,14 +45,50 @@ const Settings = () => {
     setIsWatermarkEnabled(watermark.sceneItemEnabled);
   };
 
+  const getStreamSettings = async () => {
+    const client = await getOBSClient();
+    if (!client) return console.error('No client');
+    const { streamServiceSettings } = await client.call(
+      'GetStreamServiceSettings',
+    );
+    console.log(streamServiceSettings);
+    setStreamKey(streamServiceSettings.key as string);
+  };
+
+  const setStreamSettings: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    const client = await getOBSClient();
+    if (!client) return console.error('No client');
+    const formData = new FormData(e.target as HTMLFormElement);
+    const newStreamKey = formData.get('streamKey') as string;
+    await client.call('SetStreamServiceSettings', {
+      streamServiceType: 'rtmp_common',
+      streamServiceSettings: {
+        key: newStreamKey,
+      },
+    });
+  };
+
   useEffect(() => {
     void getWatermarkStatus();
+    void getStreamSettings();
   }, []);
 
   return (
-    <Button onClick={toggleWatermark} compact active={isWatermarkEnabled}>
-      Show/hide watermark
-    </Button>
+    <>
+      <Button onClick={toggleWatermark} compact active={isWatermarkEnabled}>
+        Show/hide watermark
+      </Button>
+      <form onSubmit={setStreamSettings}>
+        <TextInput
+          name="streamKey"
+          placeholder="Stream key"
+          defaultValue={streamKey}
+          type="text"
+        />
+        <Button type="submit">Save</Button>
+      </form>
+    </>
   );
 };
 

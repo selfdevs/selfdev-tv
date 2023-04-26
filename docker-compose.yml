@@ -31,3 +31,10 @@ services:
       - "5173:5173"
     depends_on:
       - api
+  relay:
+    build:
+      context: relay
+      dockerfile: Dockerfile
+    container_name: relay
+    ports:
+      - "9001:9001"

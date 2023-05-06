@@ -8,6 +8,7 @@ import getVideoDurationInSeconds from 'get-video-duration';
 import { ScheduledEvent } from './entities/ScheduledEvent';
 import { MoreThan } from 'typeorm';
 import { getConnectedClient } from './utils/obs';
+import { getEnvOrThrow } from './utils/env';
 
 const upload = multer({ dest: 'assets/' });
 
@@ -19,6 +20,14 @@ app.use(express.json());
 const TICKER_INTERVAL = 1000;
 
 setInterval(async () => {
+  const now = DateTime.now();
+  if (now.hour === 22 && now.minute === 10 && now.second === 0) {
+    const obs = await getConnectedClient();
+    await obs.call('StopStream');
+    setTimeout(() => {
+      obs.call('StartStream');
+    }, 10000);
+  }
   const scheduledEventsRepository = AppDataSource.getRepository(ScheduledEvent);
   const queue = await scheduledEventsRepository.find({
     where: {
@@ -45,7 +54,7 @@ async function runMedia(filename: string) {
   await obs.call('SetInputSettings', {
     inputName: 'scheduled_media',
     inputSettings: {
-      local_file: '/home/cchampou/code/broadcast/server/assets/' + filename,
+      local_file: getEnvOrThrow('ASSETS_BASE_PATH') + filename,
     },
   });
   await obs.call('SetCurrentProgramScene', {

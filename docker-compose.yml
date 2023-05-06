@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:13.2
     container_name: db
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

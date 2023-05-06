@@ -2,7 +2,7 @@ import React from 'react';
 import './mosaic.css';
 import Panel from '../Panel/Panel';
 import Preview from '../Preview/Preview';
-import SimpleTimeline from '../../SimpleTimeline/SimpleTimeline';
+import SimpleTimeline from '../SimpleTimeline/SimpleTimeline';
 import Logs from '../Logs/Logs';
 
 function Mosaic() {

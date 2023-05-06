@@ -21,7 +21,7 @@ const TICKER_INTERVAL = 1000;
 
 setInterval(async () => {
   const now = DateTime.now();
-  if (now.hour === 22 && now.minute === 10 && now.second === 0) {
+  if (now.hour === 22 && now.minute === 0 && now.second === 0) {
     const obs = await getConnectedClient();
     await obs.call('StopStream');
     setTimeout(() => {

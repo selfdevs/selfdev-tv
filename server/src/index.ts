@@ -9,6 +9,8 @@ import { ScheduledEvent } from './entities/ScheduledEvent';
 import { MoreThan } from 'typeorm';
 import { getConnectedClient } from './utils/obs';
 import { getEnvOrThrow } from './utils/env';
+import { Server } from 'socket.io';
+import http from 'http';
 
 const upload = multer({ dest: 'assets/' });
 
@@ -16,6 +18,18 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  },
+});
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+});
 
 const TICKER_INTERVAL = 1000;
 
@@ -108,6 +122,7 @@ app.post('/queue', async (req, res) => {
     startTime,
   });
   await scheduledEventRepository.save(newEvent);
+  io.emit('scheduleUpdate');
   res.send('ok');
 });
 
@@ -133,6 +148,6 @@ AppDataSource.initialize()
     console.error('Error during Data Source initialization', err);
   });
 
-app.listen(3000, () => {
+server.listen(3000, () => {
   console.log('Server is listening on port 3000');
 });

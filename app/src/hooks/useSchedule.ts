@@ -1,24 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import { getEnvOrThrow } from '../utils/env';
+import { io } from 'socket.io-client';
 
 const useSchedule = () => {
   const [schedule, setSchedule] = useState([]);
-  const intervalRef = useRef<number>();
+
+  const socket = io(`${window.location.hostname}:3000`);
+
+  const fetchSchedule = async () => {
+    const response = await fetch(`${getEnvOrThrow('VITE_API_URL')}/schedule`);
+    const data = await response.json();
+    setSchedule(data);
+  };
 
   useEffect(() => {
-    const fetchSchedule = async () => {
-      const response = await fetch(`${getEnvOrThrow('VITE_API_URL')}/schedule`);
-      const data = await response.json();
-      setSchedule(data);
-    };
-
-    fetchSchedule();
-
-    intervalRef.current = setInterval(fetchSchedule, 1000);
-
-    return () => {
-      clearInterval(intervalRef.current);
-    };
+    void fetchSchedule();
+    socket.on('scheduleUpdate', () => {
+      void fetchSchedule();
+    });
   }, []);
 
   return schedule;

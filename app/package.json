@@ -16,7 +16,8 @@
     "react-dom": "^18.2.0",
     "react-router": "^6.10.0",
     "react-router-dom": "^6.10.0",
-    "shaka-player": "^4.3.5"
+    "shaka-player": "^4.3.5",
+    "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
     "@types/luxon": "^3.3.0",

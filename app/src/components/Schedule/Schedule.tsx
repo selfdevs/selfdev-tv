@@ -19,7 +19,6 @@ const Schedule = () => {
     const formData = new FormData(event.currentTarget);
     const startTime = formData.get('startTime');
     const mediaId = formData.get('mediaId');
-    console.log({ startTime, mediaId });
     fetch(`${getEnvOrThrow('VITE_API_URL')}/queue`, {
       method: 'POST',
       headers: {

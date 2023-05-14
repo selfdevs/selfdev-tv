@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: b8gt5k98c
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
 # Only enable for debug purposes!
 #    ports:

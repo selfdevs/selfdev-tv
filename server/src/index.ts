@@ -140,6 +140,7 @@ app.get('/schedule', async (req: Request, res) => {
   res.send(schedule);
 });
 
+void AppDataSource.runMigrations();
 AppDataSource.initialize()
   .then(() => {
     console.log('Data Source has been initialized!');

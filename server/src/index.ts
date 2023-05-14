@@ -140,7 +140,14 @@ app.get('/schedule', async (req: Request, res) => {
   res.send(schedule);
 });
 
-void AppDataSource.runMigrations();
+void AppDataSource.runMigrations()
+  .then(() => {
+    console.log('Migrations have been run!');
+  })
+  .catch((err) => {
+    console.error('Error during migration', err);
+  });
+
 AppDataSource.initialize()
   .then(() => {
     console.log('Data Source has been initialized!');

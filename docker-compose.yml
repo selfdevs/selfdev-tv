@@ -40,3 +40,7 @@ services:
     container_name: relay
     ports:
       - "9001:9001"
+
+networks:
+    default:
+      name: selfdev-tv-network

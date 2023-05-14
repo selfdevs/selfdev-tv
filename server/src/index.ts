@@ -33,34 +33,37 @@ io.on('connection', (socket) => {
 
 const TICKER_INTERVAL = 1000;
 
-setInterval(async () => {
-  const now = DateTime.now();
-  if (now.hour === 23 && now.minute === 0 && now.second === 0) {
-    const obs = await getConnectedClient();
-    await obs.call('StopStream');
-    setTimeout(() => {
-      obs.call('StartStream');
-    }, 10000);
-  }
-  const scheduledEventsRepository = AppDataSource.getRepository(ScheduledEvent);
-  const queue = await scheduledEventsRepository.find({
-    where: {
-      startTime: MoreThan(DateTime.now().toJSDate()),
-    },
-    relations: ['media'],
-    order: {
-      startTime: 'ASC',
-    },
-  });
-  if (
-    DateTime.fromJSDate(queue[0]?.startTime).minus({
-      millisecond: TICKER_INTERVAL,
-    }) < DateTime.now()
-  ) {
-    console.log('Found scheduled media to play');
-    await runMedia(queue[0].media.filename);
-  }
-}, TICKER_INTERVAL);
+function startTicker() {
+  setInterval(async () => {
+    const now = DateTime.now();
+    if (now.hour === 23 && now.minute === 0 && now.second === 0) {
+      const obs = await getConnectedClient();
+      await obs.call('StopStream');
+      setTimeout(() => {
+        obs.call('StartStream');
+      }, 10000);
+    }
+    const scheduledEventsRepository =
+      AppDataSource.getRepository(ScheduledEvent);
+    const queue = await scheduledEventsRepository.find({
+      where: {
+        startTime: MoreThan(DateTime.now().toJSDate()),
+      },
+      relations: ['media'],
+      order: {
+        startTime: 'ASC',
+      },
+    });
+    if (
+      DateTime.fromJSDate(queue[0]?.startTime).minus({
+        millisecond: TICKER_INTERVAL,
+      }) < DateTime.now()
+    ) {
+      console.log('Found scheduled media to play');
+      await runMedia(queue[0].media.filename);
+    }
+  }, TICKER_INTERVAL);
+}
 
 async function runMedia(filename: string) {
   console.log('Play scheduled media');
@@ -146,6 +149,7 @@ AppDataSource.initialize()
     void AppDataSource.runMigrations()
       .then(() => {
         console.log('Migrations have been run!');
+        startTicker();
       })
       .catch((err) => {
         console.error('Error during migration', err);

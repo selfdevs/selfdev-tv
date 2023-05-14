@@ -10,8 +10,10 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
 # Only enable for debug purposes!
-    ports:
-      - "5432:5432"
+#    ports:
+#      - "5432:5432"
+    expose:
+      - "5432"
   api:
     build:
       context: server

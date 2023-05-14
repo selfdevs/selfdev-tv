@@ -17,7 +17,8 @@ const Fallback = () => {
     await client.call('SetInputSettings', {
       inputName: 'fallback_video',
       inputSettings: {
-        local_file: `/home/cchampou/code/broadcast/server/assets/${mediaFilename}`,
+        // TODO: Make this configurable ASAP
+        local_file: `/root/selfdev-tv/server/assets/${mediaFilename}`,
       },
     });
   };

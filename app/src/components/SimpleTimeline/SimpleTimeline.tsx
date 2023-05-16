@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import useSchedule from '../../hooks/useSchedule';
 
-const SimpleTimeline = ({ style }) => {
+type SimpleTimelineProps = {
+  style?: CSSProperties;
+};
+
+const SimpleTimeline = ({ style }: SimpleTimelineProps) => {
   const schedule = useSchedule();
+
   return (
     <div style={style}>
       {schedule.map((item) => (
         <div key={item.id}>
           <p>{item.startTime}</p>
-          <p>{item.media.name}</p>
+          <p>{item?.media?.name || item?.epg?.title}</p>
         </div>
       ))}
     </div>

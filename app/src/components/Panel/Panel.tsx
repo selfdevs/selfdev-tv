@@ -94,17 +94,17 @@ const Panel = ({ style }: Props) => {
       >
         Scheduler
       </Button>
-      <Button
-        onClick={() => navigate('settings')}
-        active={pathname.endsWith('settings')}
-        compact
-        containerStyle={{
-          gridColumn: 19,
-          gridRow: 4,
-        }}
-      >
-        Stream settings
-      </Button>
+      {/*<Button*/}
+      {/*  onClick={() => navigate('settings')}*/}
+      {/*  active={pathname.endsWith('settings')}*/}
+      {/*  compact*/}
+      {/*  containerStyle={{*/}
+      {/*    gridColumn: 19,*/}
+      {/*    gridRow: 4,*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  Stream settings*/}
+      {/*</Button>*/}
       <LiveButton
         style={{
           gridColumn: 19,

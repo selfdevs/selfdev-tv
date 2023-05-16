@@ -11,6 +11,7 @@ import { getConnectedClient } from './utils/obs';
 import { getEnvOrThrow } from './utils/env';
 import { Server } from 'socket.io';
 import http from 'http';
+import { Epg } from './entities/Epg';
 
 const upload = multer({ dest: 'assets/' });
 
@@ -57,7 +58,8 @@ function startTicker() {
     if (
       DateTime.fromJSDate(queue[0]?.startTime).minus({
         millisecond: TICKER_INTERVAL,
-      }) < DateTime.now()
+      }) < DateTime.now() &&
+      queue[0].media
     ) {
       console.log('Found scheduled media to play');
       await runMedia(queue[0].media.filename);
@@ -116,14 +118,28 @@ app.post('/queue', async (req, res) => {
   console.log(req.body);
   const mediaRepository = AppDataSource.getRepository(Media);
   const scheduledEventRepository = AppDataSource.getRepository(ScheduledEvent);
-  const mediaId = req.body.mediaId;
+  const epgRepository = AppDataSource.getRepository(Epg);
   const startTime = DateTime.fromISO(req.body.startTime);
-  const media = await mediaRepository.findOneBy({ id: mediaId });
-  if (!media) return res.status(400).send('Media not found');
+  const title = req.body.title;
+  const description = req.body.description;
+  let epg;
+  if (title && description) {
+    epg = epgRepository.create({
+      title,
+      description,
+    });
+    await epgRepository.save(epg);
+  }
   const newEvent = scheduledEventRepository.create({
-    media,
     startTime,
+    epg: epg,
   });
+  const mediaId = req.body.mediaId;
+  if (mediaId) {
+    const media = await mediaRepository.findOneBy({ id: mediaId });
+    if (!media) return res.status(400).send('Media not found');
+    newEvent.media = media;
+  }
   await scheduledEventRepository.save(newEvent);
   io.emit('scheduleUpdate');
   res.send('ok');
@@ -132,7 +148,7 @@ app.post('/queue', async (req, res) => {
 app.get('/schedule', async (req: Request, res) => {
   const scheduledEventRepository = AppDataSource.getRepository(ScheduledEvent);
   const schedule = await scheduledEventRepository.find({
-    relations: ['media'],
+    relations: ['media', 'epg'],
     where: {
       startTime: MoreThan(DateTime.now().toJSDate()),
     },
